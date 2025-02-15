@@ -54,6 +54,11 @@ class UserController extends Controller
         }
     }
 
+    /*
+    @route  /api/login
+    @desc   Authentication user
+    @access Public
+    */
     public function login(Request $request){
         try {
             // Validation request input
@@ -98,6 +103,11 @@ class UserController extends Controller
         }
     }
 
+    /*
+    @route  /api/logout
+    @desc   Logged out user
+    @access Authenticated user
+    */
     public function logout(Request $request){
         $token = $request->user()->currentAccessToken()->delete();
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\CourseController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -13,6 +14,12 @@ Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function(){
+    // Courses
+    Route::prefix('courses')->group(function(){
+        Route::get('/', [CourseController::class, 'courses']);
+        Route::post('/', [CourseController::class, 'createCourses']);
+        Route::put('/{courses}', [CourseController::class, 'updateCourses']);
+    });
     // Logged out
     Route::post('logout', [UserController::class, 'logout']);
 });
