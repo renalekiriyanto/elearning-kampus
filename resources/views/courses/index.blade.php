@@ -1,10 +1,25 @@
 @extends('layouts.adminlte.main')
 @section('title', 'List Course')
 @section('content')
+    @if (Session::has('success'))
+        <div class="alert alert-success" role="alert">
+            {{Session::get('success')}}
+        </div>
+    @endif
+    @if (Session::has('error'))
+        <div class="alert alert-danger" role="alert">
+            {{Session::get('error')}}
+        </div>
+    @endif
+    @if (Session::has('warning'))
+        <div class="alert alert-warning" role="alert">
+            {{Session::get('warning')}}
+        </div>
+    @endif
     <div class="card mb-4">
         <div class="card-header">
             @can('create-courses')
-                <a href="{{route('courses.create')}}" class="btn btn-sm btn-primary">Create</a>
+                <a href="{{ route('courses.create') }}" class="btn btn-sm btn-primary">Create</a>
             @endcan
         </div>
         <!-- /.card-header -->
@@ -22,16 +37,22 @@
                 <tbody>
                     @foreach ($data as $item)
                         <tr class="align-middle">
-                            <td>{{($data->currentPage()-1)*$data->perPage()+$loop->index+1}}</td>
-                            <td>{{$item->name ?? '-'}}</td>
-                            <td>{{$item->description ?? '-'}}</td>
-                            <td>{{$item->lecturer->name ?? '-'}}</td>
+                            <td>{{ ($data->currentPage() - 1) * $data->perPage() + $loop->index + 1 }}</td>
+                            <td>{{ $item->name ?? '-' }}</td>
+                            <td>{{ $item->description ?? '-' }}</td>
+                            <td>{{ $item->lecturer->name ?? '-' }}</td>
                             <td class="d-flex align-content-around">
                                 @can('delete-courses')
-                                    <form action="{{route('courses.delete', $item->id)}}" method="post" class="mr-3">
+                                    <form action="{{ route('courses.delete', $item->id) }}" method="post" class="mr-3">
                                         @csrf
                                         @method('delete')
                                         <button class="badge bg-danger btn" type="submit">Delete</button>
+                                    </form>
+                                @endcan
+                                @can('register-courses')
+                                    <form action="{{ route('courses.enrolled', $item->id) }}" method="post" class="mr-3">
+                                        @csrf
+                                        <button class="badge bg-success btn" type="submit">Enroll</button>
                                     </form>
                                 @endcan
                                 @can('update-courses')
@@ -59,8 +80,7 @@
                     @if ($page == $data->currentPage())
                         <li class="page-item active"><span class="page-link">{{ $page }}</span></li>
                     @else
-                        <li class="page-item"><a class="page-link"
-                                href="{{ $url }}">{{ $page }}</a></li>
+                        <li class="page-item"><a class="page-link" href="{{ $url }}">{{ $page }}</a></li>
                     @endif
                 @endforeach
 

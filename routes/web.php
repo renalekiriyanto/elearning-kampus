@@ -15,5 +15,6 @@ Route::middleware(['auth'])->group(function(){
         Route::post('/', [CourseController::class, 'storeCourses'])->name('courses.store');
         // Delete
         Route::delete('/{course}', [CourseController::class, 'deleteCourses'])->name('courses.delete');
+        Route::post('/{courses}/enroll', [CourseController::class, 'enrollCourses'])->name('courses.enrolled')->middleware(['permission:register-courses']);
     });
 });
