@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
+use App\Models\Enrollment;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -77,14 +78,70 @@ class CourseController extends Controller
                 'description' => ['string']
             ]);
 
+            $courses->update($valid);
+
             return response()->json([
-                'valid' => $valid
+                'success' => true,
+                'msg' => 'Courses updated',
+                'data' => $courses
+            ]);
+        } catch (Exception $error) {
+            return response()->json([
+                'success' => false,
+                'msg' => 'Something went wrong',
+                'error' => $error->getMessage()
+            ], 500);
+        }
+    }
+
+    /*
+    @route  DELETE    /api/courses
+    @desc   Delete courses
+    @access permission::delete-courses
+    */
+    public function deleteCourses(Course $courses){
+        try {
+            $courses->delete();
+
+            return response()->json([
+                'success' => true,
+                'msg' => 'Courses deleted'
+            ]);
+        } catch (Exception $error) {
+            return response()->json([
+                'success' => false,
+                'msg' => 'Something went wrong',
+                'error' => $error->getMessage()
+            ], 500);
+        }
+    }
+
+    /*
+    @route  POST    /api/courses/{id}/enroll
+    @desc   Enroll courses
+    @access permission::registers-courses
+    */
+    public function enrollCourses(Course $courses){
+        try {
+            // Check enroll
+            $enroll = Enrollment::where('course_id', $courses->id)->where('student_id', Auth::user()->id)->first();
+            if($enroll){
+                return response()->json([
+                    'success' => false,
+                    'msg' => 'User have already enrolled in this courses',
+                ], 409);
+            }
+
+            $enroll  = Enrollment::create([
+                'course_id' => $courses->id,
+                'student_id' => Auth::user()->id
             ]);
 
             return response()->json([
                 'success' => true,
-                'msg' => 'Courses created',
-                'data' => $course
+                'msg' => 'Course enrolled',
+                'data' => $enroll,
+                'course' => $courses
             ]);
         } catch (Exception $error) {
             return response()->json([

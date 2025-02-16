@@ -16,9 +16,11 @@ Route::post('login', [UserController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function(){
     // Courses
     Route::prefix('courses')->group(function(){
-        Route::get('/', [CourseController::class, 'courses']);
-        Route::post('/', [CourseController::class, 'createCourses']);
-        Route::put('/{courses}', [CourseController::class, 'updateCourses']);
+        Route::get('/', [CourseController::class, 'courses'])->middleware(['permission:read-courses']);
+        Route::post('/', [CourseController::class, 'createCourses'])->middleware(['permission:create-courses']);
+        Route::put('/{courses}', [CourseController::class, 'updateCourses'])->middleware(['permission:update-courses']);
+        Route::delete('/{courses}', [CourseController::class, 'deleteCourses'])->middleware(['permission:delete-courses']);
+        Route::post('/{courses}/enroll', [CourseController::class, 'enrollCourses'])->middleware(['permission:register-courses']);
     });
     // Logged out
     Route::post('logout', [UserController::class, 'logout']);
