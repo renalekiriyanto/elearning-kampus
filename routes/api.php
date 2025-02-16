@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\API\AssignmentController;
 use App\Http\Controllers\API\CourseController;
 use App\Http\Controllers\API\MaterialsController;
+use App\Http\Controllers\API\SubmissionController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +29,15 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::prefix('materials')->group(function(){
         Route::post('/', [MaterialsController::class, 'uploadMaterials'])->middleware(['permission:upload-materials']);
         Route::get('/{materials}/download', [MaterialsController::class, 'downloadMaterials'])->middleware(['permission:upload-materials']);
+    });
+    // Assignment
+    Route::prefix('assignments')->group(function(){
+        Route::post('/', [AssignmentController::class, 'createAssignment'])->middleware('permission:create-assignments');
+    });
+    // Submission
+    Route::prefix('submissions')->group(function(){
+        Route::post('/', [SubmissionController::class, 'createSubmission'])->middleware('permission:upload-submission');
+        Route::post('/{submission}/grade', [SubmissionController::class, 'rateSubmission'])->middleware('permission:rate-submission');
     });
     // Logged out
     Route::post('logout', [UserController::class, 'logout']);
