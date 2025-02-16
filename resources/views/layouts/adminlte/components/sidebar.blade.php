@@ -35,6 +35,12 @@
                         <p>Assignment</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{route('submissions')}}" class="nav-link">
+                        <i class="nav-icon bi bi-book"></i>
+                        <p>Submission</p>
+                    </a>
+                </li>
                 @auth
                     <li class="nav-item">
                         <form action="{{route('logout')}}" method="post">

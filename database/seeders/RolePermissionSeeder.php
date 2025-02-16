@@ -118,9 +118,9 @@ class RolePermissionSeeder extends Seeder
         }
 
         $role_dosen = Role::findByName('dosen');
-        $role_dosen->givePermissionTo(['read-courses', 'create-courses', 'update-courses', 'delete-courses', 'read-materials', 'create-materials', 'upload-materials', 'read-assignments', 'create-assignments', 'delete-assignments', 'rate-submission', 'read-discussion', 'create-discussion', 'update-discussion', 'delete-discussion', 'reply-discussion']);
+        $role_dosen->givePermissionTo(['read-courses', 'create-courses', 'update-courses', 'delete-courses', 'read-materials', 'create-materials', 'upload-materials', 'read-assignments', 'create-assignments', 'delete-assignments', 'read-submission', 'rate-submission', 'read-discussion', 'create-discussion', 'update-discussion', 'delete-discussion', 'reply-discussion']);
 
         $role_mahasiswa = Role::findByName('mahasiswa');
-        $role_mahasiswa->givePermissionTo(['read-courses', 'register-courses', 'read-materials', 'download-materials', 'read-assignments', 'upload-submission', 'read-discussion', 'create-discussion', 'update-discussion', 'delete-discussion', 'reply-discussion']);
+        $role_mahasiswa->givePermissionTo(['read-courses', 'register-courses', 'read-materials', 'download-materials', 'read-assignments', 'read-submission', 'upload-submission', 'read-discussion', 'create-discussion', 'update-discussion', 'delete-discussion', 'reply-discussion']);
     }
 }
