@@ -10,4 +10,8 @@ class Assignment extends Model
     use SoftDeletes;
 
     protected $guarded = ['id'];
+
+    public function course(){
+        return $this->belongsTo(Course::class, 'course_id', 'id');
+    }
 }

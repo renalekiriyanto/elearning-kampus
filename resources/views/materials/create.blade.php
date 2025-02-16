@@ -21,7 +21,6 @@
                           <option value="{{$item->id}}">{{$item->name}} - {{$item->description}}</option>
                       @endforeach
                     </select>
-                    <div class="invalid-feedback">Please select a valid state.</div>
                   </div>
                 <div class="mb-3">
                     <label for="title" class="form-label">Title</label>

@@ -29,6 +29,12 @@
                         <p>Materials</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{route('assignments')}}" class="nav-link">
+                        <i class="nav-icon bi bi-book"></i>
+                        <p>Assignment</p>
+                    </a>
+                </li>
                 @auth
                     <li class="nav-item">
                         <form action="{{route('logout')}}" method="post">

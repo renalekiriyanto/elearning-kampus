@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\MaterialsController;
 use App\Http\Controllers\UserController;
@@ -20,14 +21,18 @@ Route::middleware(['auth'])->group(function(){
         Route::post('/{courses}/enroll', [CourseController::class, 'enrollCourses'])->name('courses.enrolled')->middleware(['permission:register-courses']);
     });
     // Materials
-    // Materials
     Route::prefix('materials')->group(function(){
         Route::get('/', [MaterialsController::class, 'pageMaterials'])->name('materials')->middleware('permission:read-materials');
         Route::post('/', [MaterialsController::class, 'uploadMaterials'])->name('materials.store')->middleware('permission:upload-materials');
         Route::get('/{materials}/download', [MaterialsController::class, 'downloadMaterials'])->name('materials.download')->middleware(['permission:download-materials']);
         Route::get('/create', [MaterialsController::class, 'createMaterial'])->name('materials.create')->middleware('permission:upload-materials');
     });
-
+    // Assignment
+    Route::prefix('assignments')->group(function(){
+        Route::get('/', [AssignmentController::class, 'pageAssignment'])->name('assignments')->middleware('permission:read-assignments');
+        Route::get('/create', [AssignmentController::class, 'pageCreateAssignment'])->name('assignment.create')->middleware('permission:create-assignments');
+        Route::post('/', [AssignmentController::class, 'createAssignment'])->name('assignment.store')->middleware('permission:create-assignments');
+    });
     // Logout
     Route::post('logout', [UserController::class, 'logout'])->name('logout');
 });
