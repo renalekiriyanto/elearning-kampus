@@ -35,6 +35,9 @@ class UserController extends Controller
 
             $user = User::where('email', $request->email)->first();
 
+            // Assign role
+            $user->assignRole($request->role_user);
+
             // Generate token
             $token_result = $user->createToken(env('APP_KEY'))->plainTextToken;
 

@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('login', [UserController::class, 'login'])->name('login');
+Route::post('login', [UserController::class, 'loginAuth'])->name('login.post');
 
 Route::middleware(['auth'])->group(function(){
     Route::prefix('courses')->group(function(){
