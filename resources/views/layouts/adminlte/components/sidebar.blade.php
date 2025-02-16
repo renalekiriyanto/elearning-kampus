@@ -20,9 +20,26 @@
                 <li class="nav-item">
                     <a href="{{route('courses')}}" class="nav-link">
                         <i class="nav-icon bi bi-book"></i>
-                        <p>Manage Courses</p>
+                        <p>Courses</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{route('materials')}}" class="nav-link">
+                        <i class="nav-icon bi bi-book"></i>
+                        <p>Materials</p>
+                    </a>
+                </li>
+                @auth
+                    <li class="nav-item">
+                        <form action="{{route('logout')}}" method="post">
+                            @csrf
+                            <button class="nav-link">
+                                <i class="nav-icon bi bi-arrow-right"></i>
+                                <p>{{Auth::user()->name}} | Logout</p>
+                            </button>
+                        </form>
+                    </li>
+                @endauth
             </ul>
             <!--end::Sidebar Menu-->
         </nav>

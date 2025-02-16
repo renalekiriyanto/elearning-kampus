@@ -55,4 +55,20 @@ class UserController extends Controller
             return redirect()->route('login')->with('error', $error->getMessage());
         }
     }
+
+    /*
+    @route      POST /logout
+    @desc       Logout
+    @access     Authenticated
+    */
+    public function logout(Request $request){
+        try {
+            Auth::logout();
+
+            return redirect()->route('login');
+
+        } catch (Exception $error) {
+            return redirect()->route('login')->with('error', $error->getMessage());
+        }
+    }
 }
