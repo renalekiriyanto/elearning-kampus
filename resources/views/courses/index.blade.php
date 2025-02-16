@@ -3,7 +3,9 @@
 @section('content')
     <div class="card mb-4">
         <div class="card-header">
-            <a href="{{route('courses.create')}}" class="btn btn-sm btn-primary">Create</a>
+            @can('create-courses')
+                <a href="{{route('courses.create')}}" class="btn btn-sm btn-primary">Create</a>
+            @endcan
         </div>
         <!-- /.card-header -->
         <div class="card-body">
@@ -25,14 +27,18 @@
                             <td>{{$item->description ?? '-'}}</td>
                             <td>{{$item->lecturer->name ?? '-'}}</td>
                             <td class="d-flex align-content-around">
-                                <form action="{{route('courses.delete', $item->id)}}" method="post" class="mr-3">
-                                    @csrf
-                                    @method('delete')
-                                    <button class="badge bg-danger btn" type="submit">Delete</button>
-                                </form>
-                                <div>
-                                    <a href="" class="badge bg-success btn">Edit</a>
-                                </div>
+                                @can('delete-courses')
+                                    <form action="{{route('courses.delete', $item->id)}}" method="post" class="mr-3">
+                                        @csrf
+                                        @method('delete')
+                                        <button class="badge bg-danger btn" type="submit">Delete</button>
+                                    </form>
+                                @endcan
+                                @can('update-courses')
+                                    <div>
+                                        <a href="" class="badge bg-success btn">Edit</a>
+                                    </div>
+                                @endcan
                             </td>
                         </tr>
                     @endforeach
