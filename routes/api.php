@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\CourseController;
+use App\Http\Controllers\API\MaterialsController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +22,11 @@ Route::middleware('auth:sanctum')->group(function(){
         Route::put('/{courses}', [CourseController::class, 'updateCourses'])->middleware(['permission:update-courses']);
         Route::delete('/{courses}', [CourseController::class, 'deleteCourses'])->middleware(['permission:delete-courses']);
         Route::post('/{courses}/enroll', [CourseController::class, 'enrollCourses'])->middleware(['permission:register-courses']);
+    });
+    // Materials
+    Route::prefix('materials')->group(function(){
+        Route::post('/', [MaterialsController::class, 'uploadMaterials'])->middleware(['permission:upload-materials']);
+        Route::get('/{materials}/download', [MaterialsController::class, 'downloadMaterials'])->middleware(['permission:upload-materials']);
     });
     // Logged out
     Route::post('logout', [UserController::class, 'logout']);
